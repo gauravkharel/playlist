@@ -4,6 +4,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main(){
+
+    //first prisma client query to post data
     const newArtist = await prisma.artist.create({
         data: {
             name: 'gaurav kharel',
@@ -17,6 +19,12 @@ async function main(){
     })
 
     console.log("created new artist: ", newArtist)
+
+    const allArtists = await prisma.artist.findMany({
+        include: {songs: true},
+    })
+    console.log("All artists: ")
+    console.dir(allArtists, {depth: null})
 }
 
 main()
